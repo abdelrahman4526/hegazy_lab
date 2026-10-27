@@ -1,0 +1,15 @@
+.env*
+waha_sessions*/
+static/uploads/
+__pycache__/
+*.pyc
+*.log
+*.sqlite*
+*.db
+*.pem
+*.key
+venv/
+.venv/
+postgres_data/
+qdrant_storage/
+backups/
