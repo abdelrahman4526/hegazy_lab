@@ -31,8 +31,12 @@ def parse_facebook_message(
             logger.debug("[FB PARSER] Missing sender.id in event")
             return []
 
-        text = msg.get("text")
-        if text:
+        # استخراج النص العام للرسالة (إن وجد) ومعرف الستيكر من الرسالة نفسها
+        text = msg.get("text", "")
+        msg_sticker_id = msg.get("sticker_id")
+
+        # معالجة الرسائل النصية الخالصة (بدون مرفقات)
+        if text and not msg.get("attachments") and not msg_sticker_id:
             logger.debug(
                 "[FB PARSER] Parsed text message sender_id=%s len=%d",
                 sender_id, len(text),
@@ -47,24 +51,55 @@ def parse_facebook_message(
             )]
 
         attachments = msg.get("attachments")
-        if attachments:
-            # رسالة مستقلة لكل attachment
-            parsed = [
-                IncomingMessage(
-                    sender_id=sender_id,
-                    page_id=page_id,
-                    platform_id=platform_id,
-                    platform_name=platform_name,
-                    msg_type=att.get("type", "media"),
-                    media=att.get("payload"),
+        if attachments or msg_sticker_id:
+            parsed_list = []
+            
+            # إذا لم يكن هناك مرفقات ولكن يوجد sticker_id (حالة نادرة في بعض إصدارات API)
+            attachments_to_process = attachments if attachments else [{"type": "sticker", "payload": {"sticker_id": msg_sticker_id}}]
+
+            for att in attachments_to_process:
+                att_type = att.get("type", "media")
+                payload = att.get("payload", {})
+
+                # فحص إذا كان المرفق عبارة عن لايك (إبهام أزرق) أو ستيكر
+                is_sticker = (
+                    bool(msg_sticker_id)
+                    or att_type == "sticker"
+                    or (isinstance(payload, dict) and bool(payload.get("sticker_id")))
                 )
-                for att in attachments
-            ]
+
+                if is_sticker:
+                    # تحويله فوراً لرسالة نصية حتى لا يدخل على الـ OCR
+                    parsed_list.append(
+                        IncomingMessage(
+                            sender_id=sender_id,
+                            page_id=page_id,
+                            platform_id=platform_id,
+                            platform_name=platform_name,
+                            msg_type="text",
+                            # إذا كان النص فارغاً، نرسل تعبير يدل على الإعجاب لتفادي رسائل فارغة
+                            text=text if text else "👍", 
+                        )
+                    )
+                    continue
+
+                # المرفقات العادية (صور روشتات، ملفات، إلخ) التي ستذهب للـ OCR
+                parsed_list.append(
+                    IncomingMessage(
+                        sender_id=sender_id,
+                        page_id=page_id,
+                        platform_id=platform_id,
+                        platform_name=platform_name,
+                        msg_type=att_type,
+                        media=payload,
+                    )
+                )
+
             logger.debug(
-                "[FB PARSER] Parsed %d attachment(s) sender_id=%s",
-                len(parsed), sender_id,
+                "[FB PARSER] Parsed %d attachment(s)/sticker(s) sender_id=%s",
+                len(parsed_list), sender_id,
             )
-            return parsed
+            return parsed_list
 
         return []
 

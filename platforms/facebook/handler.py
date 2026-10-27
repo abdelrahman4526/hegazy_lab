@@ -13,7 +13,7 @@ logger = logging.getLogger(__name__)
 
 
 class FacebookHandler(BaseHandler):
-    platform_id = 1
+    platform_id = 3
     # النسخة من Config.FB_API_VERSION. الافتراضي هو القديم عشان السلوك ميتغيرش
     # لحد ما تراجع الـ changelog وتحدّد النسخة الجديدة.
     API_VERSION = getattr(Config, "FB_API_VERSION", "v19.0")

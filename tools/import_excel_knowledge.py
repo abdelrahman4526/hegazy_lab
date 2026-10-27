@@ -54,7 +54,7 @@ except ImportError:
     app = create_app()
 
 from models.models import db, Laboratory  # noqa: E402
-import services.tests_service as tests_service_module  # noqa: E402
+import services.domain.tests_service as tests_service_module  # noqa: E402
 from services.domain.tests_service import TestsService  # noqa: E402
 from services.shared.generation_service import generate_test  # noqa: E402
 from services.shared.vector_service import upsert_test_vector as _real_upsert_test_vector  # noqa: E402
@@ -70,7 +70,7 @@ except ImportError:
 # --------------------------------------------------------------------------
 # إعدادات
 # --------------------------------------------------------------------------
-DEFAULT_EXCEL_PATH = "Filtered_Tests_Prices.xlsx"
+DEFAULT_EXCEL_PATH = "Price_List_2026 - Copy.xlsx"
 FAILED_LOG_PATH = "failed_tests.csv"
 DEFAULT_DETAIL_LOG_PATH = "import_log.txt"
 SLEEP_BETWEEN_CALLS = 1.0  # ثانية بين كل نداء AI - زوّدها لو حصل rate limit
@@ -98,17 +98,35 @@ def read_excel_rows(excel_path: str):
     ws = wb.active
 
     rows = []
-    for row in ws.iter_rows(min_row=2, values_only=True):
-        row_type, name, price = row[0], row[1], row[2]
-        if not name or str(name).strip() == "":
+    for row_num, row in enumerate(ws.iter_rows(min_row=2, values_only=True), start=2):
+        # The sheet columns are A=Type (may be blank), B=Test Name, C=Price.
+        if len(row) < 3:
+            print(f"⚠️ Excel row {row_num}: fewer than 3 columns; skipping")
             continue
+
+        row_type, name, price = row[0], row[1], row[2]
+        if name is None or not str(name).strip():
+            continue
+
+        # Some Excel sheets repeat their column headings later in the data.
+        if str(name).strip().casefold() == "test name" and str(price).strip().casefold() == "price":
+            print(f"⏭️ Excel row {row_num}: repeated header; skipping")
+            continue
+
+        try:
+            parsed_price = float(price) if price not in (None, "") else 0.0
+        except (ValueError, TypeError):
+            print(f"⚠️ Excel row {row_num}: invalid price for {name!r}: {price!r}; skipping")
+            continue
+
         rows.append(
             {
-                "type": (row_type or "").strip() if isinstance(row_type, str) else row_type,
+                "type": row_type.strip() if isinstance(row_type, str) else row_type,
                 "name": str(name).strip(),
-                "price": float(price) if price not in (None, "") else 0.0,
+                "price": parsed_price,
             }
         )
+    wb.close()
     return rows
 
 

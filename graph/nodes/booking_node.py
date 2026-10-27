@@ -17,6 +17,8 @@ from utils.text_utils import detect_language_fallback, get_platform_name
 
 logger = logging.getLogger(__name__)
 
+OFFER_FLYER_MARKER = "LAB OFFER / BUNDLE FLYER"
+
 
 def booking_node(state: AgentState) -> dict:
     """
@@ -41,7 +43,12 @@ def booking_node(state: AgentState) -> dict:
     current_summary = state.get("summary") or ""
     last_bot_message = state.get("last_bot_message") or ""
     matched_context = state.get("rag_context") or ""
-    is_bundle_query = state.get("is_bundle_query", False)
+
+    # Offer flyers must always load the bundles context, even if the classifier missed it.
+    is_bundle_query = (
+        state.get("is_bundle_query", False)
+        or OFFER_FLYER_MARKER in user_message
+    )
 
     # 2. Fetch dynamic Lab Info & Bundles Context from DB
     lab_name, lab_location, lab_desc = LaboratoryService.get_current_lab_info()
@@ -132,18 +139,18 @@ Last bot message:
         fallback = detect_language_fallback(
             user_message,
             arabic=(
-                   f"عذرًا، حدث خطأ مؤقت أثناء معالجة طلبك ⚠️\n\n"
-                   f"يرجى المحاولة مرة أخرى بعد قليل، أو يمكنك التواصل مباشرة مع خدمة عملاء معامل ezz lab لمساعدتك فوراً عبر الرقم:\n"
-                   f"📞 **01006446508**\n\n"
-                   f"نحن في خدمتك دائمًا ✨"
-                   ),
+                f"عذرًا، حدث خطأ مؤقت أثناء معالجة طلبك ⚠️\n\n"
+                f"يرجى المحاولة مرة أخرى بعد قليل، أو يمكنك التواصل مباشرة مع خدمة عملاء معامل ا.د/ حجازى العبودى لمساعدتك فوراً عبر الرقم:\n"
+                f"📞 ****\n\n"
+                f"نحن في خدمتك دائمًا ✨"
+            ),
             default=(
-                    f"Apologies, a temporary error occurred while processing your request ⚠️\n\n"
-                    f"Please try again in a moment, or contact ezz lab customer service directly for assistance at:\n"
-                    f"📞 **01006446508**\n\n"
-                    f"We are always happy to help! ✨"
-                    ),
-              )
+                f"Apologies, a temporary error occurred while processing your request ⚠️\n\n"
+                f"Please try again in a moment, or contact El Sadara Labs customer service directly for assistance at:\n"
+                f"📞 ****\n\n"
+                f"We are always happy to help! ✨"
+            ),
+        )
 
         return {
             "response": fallback,
@@ -220,22 +227,22 @@ Last bot message:
                 arabic=(
                     f"تم استلام طلب حجزك بنجاح ✅\n\n"
                     f"📌 **رقم الطلب:** *{booking_reference}*\n\n"
-                    f"سيقوم فريق خدمة العملاء بمعامل ezz lab بالتواصل معك قريباً لتأكيد الموعد النهائي.\n\n"
+                    f"سيقوم فريق خدمة العملاء بمعامل ا.د/ حجازى العبودى بالتواصل معك قريباً لتأكيد الموعد النهائي.\n\n"
                     f"مرفق أدناه تذكرة الحجز الخاصة بك 🎫"
                 ),
                 default=(
                     f"Your booking request has been successfully received ✅\n\n"
                     f"📌 **Reference ID:** *{booking_reference}*\n\n"
-                    f"Our customer service team at ezz lab will contact you shortly to confirm the final appointment.\n\n"
+                    f"Our customer service team at El Sadara Labs will contact you shortly to confirm the final appointment.\n\n"
                     f"Here is your booking ticket below 🎫"
                 ),
             )
             updated_summary = (
-              f"{current_summary}\n\n"
-              f"--- BOOKING STATUS UPDATE ---\n"
-              f"✅ Visit booking confirmed & saved successfully\n "
-              f"Booked Tests: {tool_args.get('details')}\n"
-              f"Status: COMPLETED. Ready for any new inquiries or requests."
+                f"{current_summary}\n\n"
+                f"--- BOOKING STATUS UPDATE ---\n"
+                f"✅ Visit booking confirmed & saved successfully\n"
+                f"Booked Tests: {tool_args.get('details')}\n"
+                f"Status: COMPLETED. Ready for any new inquiries or requests."
             ).strip()
 
             return {

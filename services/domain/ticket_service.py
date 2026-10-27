@@ -36,7 +36,7 @@ MUTED = colors.HexColor("#5F6785")
 DARK = colors.HexColor("#1F2340")
 
 # Header text next to the logo
-CLINIC_LINE_1 = "معمل عز لاب"
+CLINIC_LINE_1 = "معامل ا.د/ حجازى العبودى"
 CLINIC_LINE_2 = "للتحاليل الطبية الكيميائية"
 
 # ── font & assets ─────────────────────────────────────────────────────────────
@@ -78,7 +78,7 @@ def _register_font() -> str:
 @functools.lru_cache(maxsize=1)
 def _find_logo() -> str | None:
     candidates = [
-        os.path.join(_BASE_DIR, "static", "images", "sadara_logo.jpg"),
+        os.path.join(_BASE_DIR, "static", "images", "sadara_logo.jpeg"),
         os.path.join(_BASE_DIR, "utils", "logo.jpeg"),
         os.path.join(_BASE_DIR, "utils", "logo.jpg"),
         os.path.join(_BASE_DIR, "utils", "logo.png"),

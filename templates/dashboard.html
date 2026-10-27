@@ -1,9 +1,9 @@
 {% extends "base.html" %}
 
-{% block title %} لوحة التحكم — معمل عز لاب{% endblock %}
+{% block title %} لوحة التحكم — معامل ا.د/ حجازى العبودى{% endblock %}
 
 {% block topbar_title %}لوحة التحكم{% endblock %}
-{% block topbar_sub %}متابعة التحاليل، الحجوزات، والروشتات لحظياً — معمل عز لاب للتحاليل الطبية الكيميائية{% endblock %}
+{% block topbar_sub %}متابعة التحاليل، الحجوزات، والروشتات لحظياً — معامل ا.د/ حجازى العبودى للتحاليل الطبية الكيميائية{% endblock %}
 
 {% block topbar_actions %}
   <button class="icon-btn" title="الإشعارات">
@@ -27,15 +27,15 @@
   <div class="hero-welcome">
     <div class="welcome-badge brand-welcome-badge">
       <span class="pulse-dot"></span>
-      النظام نشط — معمل عز لاب للتحاليل الطبية الكيميائية
+      النظام نشط — معامل ا.د/ حجازى العبودى للتحاليل الطبية الكيميائية
     </div>
     <div class="dashboard-brand-header">
       <div class="dashboard-logo-container">
-        <img src="{{ url_for('static', filename='images/sadara_logo.jpeg') }}" alt="معمل عز لاب  " class="dashboard-logo-img">
+        <img src="{{ url_for('static', filename='images/sadara_logo.jpeg') }}" alt="معامل ا.د/ حجازى العبودى  " class="dashboard-logo-img">
       </div>
       <div>
         <h2>أهلاً بك، {{ current_user.name if current_user.is_authenticated and current_user.name else (current_user.username if current_user.is_authenticated else 'المسؤول') }} 👋</h2>
-        <p>مرحباً بك في المنصة الذكية لإدارة <strong>معمل عز لاب</strong>. يمكنك متابعة طلبات الروشتات، الحجوزات المنزلية، وإدارة الخدمات الطبية بكل سلاسة.</p>
+        <p>مرحباً بك في المنصة الذكية لإدارة <strong>معامل ا.د/ حجازى العبودى</strong>. يمكنك متابعة طلبات الروشتات، الحجوزات المنزلية، وإدارة الخدمات الطبية بكل سلاسة.</p>
       </div>
     </div>
   </div>

@@ -13,7 +13,7 @@ logger = logging.getLogger(__name__)
 
 
 class WahaHandler(BaseHandler):
-    platform_id = 2
+    platform_id = 4
 
     def __init__(self, page):
         super().__init__(page)

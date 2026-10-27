@@ -1,12 +1,17 @@
-/env
-/pycache__/
 .env
-/.env
-__pycache__
-.env
-credentials.json
-token.json
+.env.*
+!.env.example
+waha_sessions*/
+static/uploads/
+__pycache__/
+*.pyc
+*.sqlite3*
+*.db
+*.log
 
-.env
-
-env/
+*.pem
+*.key
+postgres_data/
+qdrant_storage/
+backups/
+EOF

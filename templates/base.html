@@ -3,8 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{% block title %}معمل عز لاب للتحاليل الطبية الكيميائية — لوحة التحكم{% endblock %}</title>
+  <title>{% block title %}معامل ا.د/ حجازى العبودى للتحاليل الطبية الكيميائية — لوحة التحكم{% endblock %}</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
   <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
@@ -26,10 +27,10 @@
   <div class="sidebar-header">
     <div class="brand-badge brand-logo-badge">
       <div class="brand-logo-ring">
-        <img src="{{ url_for('static', filename='images/sadara_logo.jpg') }}" alt="معمل عز لاب" class="brand-logo-img">
+        <img src="{{ url_for('static', filename='images/sadara_logo.jpeg') }}" alt="معامل ا.د/ حجازى العبودى" class="brand-logo-img">
       </div>
       <div class="brand-text-container">
-        <div class="lab-name"></div>معمل عز لاب</div>
+        <div class="lab-name">معامل ا.د/ حجازى العبودى</div>
         <div class="lab-sub">للتحاليل الطبية الكيميائية</div>
       </div>
     </div>
@@ -78,7 +79,6 @@
       التحاليل الطبية
     </a>
 
-    <!-- 🌟 تم إضافة رابط الباقات الفحصية هنا 🌟 -->
     <a href="{{ url_for('bundle.list_bundles') }}"
        class="nav-item {% if request.endpoint in ['bundle.list_bundles', 'bundle.add_bundle', 'bundle.bundle_detail'] %}active{% endif %}">
       <i data-lucide="layers" class="nav-icon"></i>
@@ -122,8 +122,6 @@
       <i data-lucide="mail" class="nav-icon"></i>
       إعدادات الإشعارات
     </a>
-
-    
 
   </nav>
 
@@ -198,7 +196,7 @@
 
   <!-- Footer -->
   <footer class="site-footer">
-    <span>مجموعة معامل عز لاب &copy; 2026</span>
+    <span>معامل ا.د/ حجازى العبودى &copy; 2026</span>
     <span class="footer-divider">•</span>
     <span>تطوير <a href="https://revyai.tech" target="_blank" rel="noopener">RevyAI</a> (<a href="https://wa.me/201554019172" target="_blank" rel="noopener" style="color:#25d366;font-weight:700;">01554019172</a>)</span>
   </footer>
