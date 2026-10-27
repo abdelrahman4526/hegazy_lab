@@ -1,4 +1,4 @@
-﻿# 🏥 ezz lab-agent — Medical Laboratory AI Agent & Workflow Automation Platform
+﻿# 🏥 hegazy-lab-agent — Medical Laboratory AI Agent & Workflow Automation Platform
 
 [![Python](https://img.shields.io/badge/Python-3.10%2B-blue.svg)](https://www.python.org/)
 [![Flask](https://img.shields.io/badge/Framework-Flask-black.svg)](https://flask.palletsprojects.com/)
@@ -665,5 +665,6 @@ The relational schema is built on **SQLAlchemy ORM** ([`models/models.py`](model
 * Database models feature lazy query caching and session rollback safety across all transactional write methods.
 * Multi-channel messaging (Facebook Messenger & WhatsApp) cleanly isolates tenant laboratory quotas and conversation history.
 * The Hybrid RAG engine rigorously combines semantic vector proximity with RapidFuzz lexical matching and n-gram typo correction.
-#   e z z _ L a b o r a t o r y _ A g e n t  
+#   e z z _ L a b o r a t o r y _ A g e n t 
+ 
  
