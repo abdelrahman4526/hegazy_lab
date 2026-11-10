@@ -37,7 +37,7 @@ DARK = colors.HexColor("#1F2340")
 
 # Header text next to the logo
 CLINIC_LINE_1 = "معامل ا.د/ حجازى العبودى"
-CLINIC_LINE_2 = "للتحاليل الطبية الكيميائية"
+CLINIC_LINE_2 = "للتحاليل الطبية "
 
 # ── font & assets ─────────────────────────────────────────────────────────────
 _HERE = os.path.dirname(os.path.abspath(__file__))

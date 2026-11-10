@@ -6,6 +6,7 @@ import openpyxl
 
 from models.models import Complaint, Status, db
 from utils.excel_utils import format_excel_sheet
+from utils.timeutils import fmt_local
 
 logger = logging.getLogger(__name__)
 
@@ -54,7 +55,7 @@ class ComplaintService:
         pagination = query.paginate(page=page, per_page=per_page, error_out=False)
         return pagination, "تم العثور على الشكاوى"
 
-    def update_complaint_status(self, new_status: Status, complaint_id=None):
+    def update_complaint_status(self, new_status: Status, resolution_text: str = None, complaint_id=None):
         """
         Update a complaint's status. Returns (Complaint or None, message string).
 
@@ -81,6 +82,8 @@ class ComplaintService:
             return None, "الشكوى غير موجودة"
         try:
             complaint.status = actual_status
+            if resolution_text is not None:
+                complaint.resolution_text = resolution_text
             db.session.commit()
             self._complaint = complaint
             self.complaint_id = complaint.id
@@ -142,7 +145,7 @@ class ComplaintService:
             rows.append([
                 complaint.phone_number,
                 complaint.complaint_text,
-                complaint.created_at.strftime('%Y-%m-%d %H:%M') if complaint.created_at else '',
+                fmt_local(complaint.created_at),
                 complaint.comes_from or 'غير محدد',
                 complaint.status.value if complaint.status else 'Pending'
             ])

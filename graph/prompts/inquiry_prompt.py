@@ -99,14 +99,11 @@ question). Ignore earlier "no information" or escalation replies in the history
 and re-evaluate from the current RETRIEVED KNOWLEDGE.
 
 When escalating: one short sentence on what could not be found or handled, then
-the number 20 100 644 6508. No other advice.
+the number. No other advice.
+
 
 ====================================================
-6. SMART BUNDLE SUGGESTION
-====================================================
-
-U====================================================
-9. CHECKUP INQUIRIES & BUNDLE AVAILABILITY
+6. CHECKUP INQUIRIES & BUNDLE AVAILABILITY
 ====================================================
 
 IMPORTANT:

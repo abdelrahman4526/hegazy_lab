@@ -15,15 +15,19 @@ logger = logging.getLogger(__name__)
 class LabResultsResponse(BaseModel):
     reply: str = Field(
         description=(
-            "Polite response in Egyptian Arabic informing the user that their request/inquiry "
-            "regarding the lab results has been received and customer service will contact them."
+            "Polite Egyptian Arabic response informing the patient "
+            "that their laboratory results will be sent directly "
+            "via WhatsApp once ready and officially approved. "
+            "Never include customer service phone numbers."
         )
     )
+
     summary: str = Field(
         description=(
             "Updated English conversation summary. "
             "Always preserve all previously collected information "
-            "(customer name, phone, booking details, complaints, test inquiries, and result requests)."
+            "(customer name, phone, booking details, complaints, "
+            "test inquiries, and result requests)."
         )
     )
 
@@ -44,21 +48,33 @@ Your task is to handle patient inquiries about laboratory test results, such as:
 ==================================================
 🎯 CORE MANDATORY MESSAGE
 ==================================================
-Whenever a patient inquires about their results (status, timing, updates, delivery, or delays):
-Your primary and mandatory message MUST direct the patient to contact customer service directly using the customer service phone number provided in the "CUSTOMER SERVICE PHONE" section below.
+Whenever a patient inquires about their laboratory results
+(status, timing, updates, delivery, or delays):
 
-The reply MUST follow this structure (in warm, polite Egyptian Arabic):
+Your primary and mandatory message MUST inform the patient
+that their laboratory results will be sent automatically
+via WhatsApp as soon as they are ready and officially
+approved by the laboratory.
 
-📋 للاستعلام عن نتيجة التحاليل الخاصة بحضرتك:
+The reply MUST follow this structure in polite Egyptian Arabic:
 
-يرجى التواصل مباشرة مع فريق خدمة العملاء والدعم الفني عبر الرقم التالي:
-📞 <customer service phone number>
+📋 بخصوص نتيجة تحاليل حضرتك:
 
-وسيقوم الفريق بمساعدتك في الحصول على النتيجة المعتمدة من المعمل.
+بمجرد ما النتيجة تكون جاهزة ومعتمدة من المعمل،
+هيتم إرسالها لحضرتك مباشرةً عبر الواتساب.
 
-- You may add a brief empathetic opening line before this message (e.g., apologizing for the wait if the patient is complaining), but the structure above must stay intact.
-- If no phone number is provided, omit the 📞 line and say that customer service will contact the patient.
-- Never promise a specific time for the result.
+شكرًا لثقتك فينا، ونتمنى لحضرتك دوام الصحة والعافية. 💙
+
+RULES:
+- Never provide a customer service phone number.
+- Never ask the patient to contact customer service.
+- Never ask the patient to visit the laboratory.
+- Never promise a specific result completion time.
+- Never claim that the result is ready unless verified.
+- Keep the message polite, reassuring, and concise.
+- If the patient complains about delays, apologize
+  politely before providing the mandatory message.
+- Maintain natural Egyptian Arabic throughout the response.
 ====================
 RULES
 ====================
@@ -117,28 +133,23 @@ Recognize ALL inquiries related to laboratory results, including:
 
 
 def result_node(state: AgentState) -> dict:
-    identity = str(state.get("sender_identity") or state.get("sender_id") or "").strip()
     page_id = state.get("page_id")
     sender_id = state.get("sender_id")
     platform_id = state.get("platform_id")
-    try:
-        page = Page.query.filter_by(
-            platform_id=platform_id,
-            page_id=page_id,
-        ).first()
-        laboratory_id = page.laboratory_id if page else None
-        ResultRequestService.create_request(identity, laboratory_id)
-    except Exception:
-        logger.exception("[LabResults Node] Result request persist error")
+
     user_message = state["user_message"]
     current_summary = state.get("summary") or ""
     last_bot_message = state.get("last_bot_message") or ""
     chat_history = state.get("chat_history") or ""
+
     llm = get_gemini()
+
     structured_llm = llm.with_structured_output(
         LabResultsResponse,
         include_raw=True,
     )
+
+    # باقي الكود زي ما هو
     system_prompt = f"""
 {LABRESULTS_SYSTEM_PROMPT}
 ====================
@@ -163,18 +174,21 @@ RECENT CHAT HISTORY (Last Exchanges)
         raw_response = result["raw"]
     except Exception as e:
         logger.error(f"[LabResults Node] LLM error: {e}")
-        phone_number = getattr(Config, "CUSTOMER_SERVICE_PHONE", "")
-        phone_line = f"📞 {phone_number}\n\n" if phone_number else ""
+
         fallback = detect_language_fallback(
             user_message,
             arabic=(
-                "📋 للاستعلام عن نتيجة التحاليل الخاصة بحضرتك:\n\n"
-                "يرجى التواصل مباشرة مع فريق خدمة العملاء والدعم الفني عبر الرقم التالي:\n"
-                f"{phone_line}"
-                "وسيقوم الفريق بمساعدتك في الحصول على النتيجة المعتمدة من المعمل."
-            ).strip(),
-            default="Hello! We have received your inquiry regarding your lab results, and customer service will contact you shortly.",
+                "📋 بخصوص نتيجة تحاليل حضرتك:\n\n"
+                "بمجرد ما النتيجة تكون جاهزة ومعتمدة من المعمل، "
+                "هيتم إرسالها لحضرتك مباشرةً عبر الواتساب.\n\n"
+                "شكرًا لثقتك فينا، ونتمنى لحضرتك دوام الصحة والعافية. 💙"
+            ),
+            default=(
+                "Once your laboratory results are ready and officially "
+                "approved, they will be sent to you directly via WhatsApp."
+            ),
         )
+
         return {
             "response": fallback,
             "summary": current_summary,

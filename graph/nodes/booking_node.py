@@ -14,7 +14,7 @@ from services.domain.bundle_service import BundleService
 from utils.history_utils import get_chat_history
 from utils.llm_utils import extract_token_usage
 from utils.text_utils import detect_language_fallback, get_platform_name
-
+from utils.timeutils import now_local
 logger = logging.getLogger(__name__)
 
 OFFER_FLYER_MARKER = "LAB OFFER / BUNDLE FLYER"
@@ -71,9 +71,7 @@ def booking_node(state: AgentState) -> dict:
     )
 
     # 4. Build the LLM prompt with dynamic Lab details & Bundles
-    current_time = datetime.now().strftime(
-        "Today is %A, %B %d, %Y. Current time is %I:%M %p"
-    )
+    current_time = now_local().strftime("%Y-%m-%d %H:%M:%S %Z")
 
     system_prompt = f"""
 {VISIT_SYSTEM_PROMPT}

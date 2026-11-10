@@ -28,8 +28,8 @@ class InquiryResult:
 
 class InquiryService:
     DISCOUNTS = {
-        'general':   {'label': 'خصم 30%',     'percent': 30},
-        'insurance': {'label': 'خصم التأمين', 'percent': 50}, 
+        'general':   {'label': 'خصم 40%',     'percent': 40 , 'limited': True},
+        'insurance': {'label': 'خصم التأمين', 'percent': 50, 'limited': False}, 
     }
 
     def __init__(self, inquiry_id=None, inquiry=None):
@@ -233,6 +233,8 @@ class InquiryService:
             final_price = total_price - discount_amount
             message_lines.append(f"🎁 {discount['label']}: -{discount_amount:g} ج.م")
             message_lines.append(f"✅ الإجمالي بعد الخصم: {final_price:g} ج.م")
+            if discount.get('limited'):
+                message_lines.append("⏳ هذا الخصم لفترة محدودة.")
 
         message_lines.append('لتأكيد الحجز، ابعتلي كلمة "تأكيد" وهنكمل معاك خطوات الحجز 👍')
 

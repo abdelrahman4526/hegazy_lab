@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{% block title %}معامل ا.د/ حجازى العبودى للتحاليل الطبية الكيميائية — لوحة التحكم{% endblock %}</title>
+  <title>{% block title %}معامل ا.د/ حجازى العبودى  — لوحة التحكم{% endblock %}</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -31,7 +31,6 @@
       </div>
       <div class="brand-text-container">
         <div class="lab-name">معامل ا.د/ حجازى العبودى</div>
-        <div class="lab-sub">للتحاليل الطبية الكيميائية</div>
       </div>
     </div>
     <div class="sidebar-status">
@@ -205,7 +204,7 @@
 
 <!-- ── SCRIPTS ────────────────────────────────────────────── -->
 <script src="{{ url_for('static', filename='js/app.js') }}"></script>
-
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 {% block scripts %}{% endblock %}
 
 </body>

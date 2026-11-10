@@ -100,7 +100,7 @@ class EmailClient:
             logger.error("[NotificationCenter] Missing email credentials or receivers in environment.")
             return False
 
-        machine_identifier = os.environ.get("SERVER_IDENTIFIER", "elbedawy-labs-agent")
+        machine_identifier = os.environ.get("SERVER_IDENTIFIER", "hegazy-labs-agent")
         final_body = f"[{machine_identifier}]\n\n{body}"
 
         try:
@@ -371,3 +371,4 @@ def send_pending_prescription_email(
             level="ERROR"
         )
         return False
+    
