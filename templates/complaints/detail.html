@@ -39,7 +39,7 @@
         <div class="info-icon si-blue"><i data-lucide="clock"></i></div>
         <div class="info-body">
           <div class="info-label">تاريخ الإنشاء</div>
-          <div class="info-value">{{ complaint.created_at.strftime('%Y-%m-%d %H:%M') if complaint.created_at else '—' }}</div>
+          <div class="info-value">{{ complaint.created_at|local_dt if complaint.created_at else '—' }}</div>
         </div>
       </div>
     </div>
@@ -76,11 +76,18 @@
           {% endfor %}
         </select>
       </div>
+      
+      <!-- الحقل الجديد: التبرير -->
+      <div class="form-group" style="margin-top: 15px; margin-bottom: 15px;">
+        <label class="form-label">رد الإدارة / الإجراء المتخذ</label>
+        <textarea name="resolution_text" class="form-control" rows="4" placeholder="اكتب كيف تم حل المشكلة مع العميل..." style="resize: vertical;">{{ complaint.resolution_text or '' }}</textarea>
+      </div>
+
       <button type="submit" class="btn btn-primary btn-block">
         <i data-lucide="save"></i>
         حفظ الحالة
       </button>
-    </form>
+  </form>
   </div>
 
 </div>

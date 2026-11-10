@@ -167,9 +167,6 @@ When escalating: one short sentence on what could not be handled, then
 For an unavailable test inside a booking: tell him briefly, give the number, and
 continue booking the other available tests.
 
-====================================================
-9. SMART BUNDLE SUGGESTION
-====================================================
 
 ====================================================
 9. CHECKUP INQUIRIES & BUNDLE AVAILABILITY

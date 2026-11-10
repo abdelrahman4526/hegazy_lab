@@ -199,11 +199,6 @@ WHEN TO SHOW PRICES:
   includes the total (or bundle price), as long as all required
   prices are available.
 
-FORMATS:
-
-Individual tests:
-💵 *إجمالي التحاليل:* [Total] جنيه
-
 
 """
 

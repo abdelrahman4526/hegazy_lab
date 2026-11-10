@@ -57,8 +57,11 @@ def create_app(config_class=Config):
     if not app.config.get("SECRET_KEY"):
         app.config["SECRET_KEY"] = "ezz lab_super_secret_key_2026"
 
-    # Initialize extensions
+    
     db.init_app(app)
+    from utils.timeutils import fmt_local
+    app.add_template_filter(lambda dt, fmt="%Y-%m-%d %H:%M": fmt_local(dt, fmt, default="—"), "local_dt")
+
     Migrate(app, db)  
 
     login_manager = LoginManager()

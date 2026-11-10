@@ -10,7 +10,7 @@ from models.models import Booking, Status, db
 from services.domain.ticket_service import generate_booking_img
 from utils.text_utils import make_reference_id
 from utils.excel_utils import format_excel_sheet
-
+from utils.timeutils import fmt_local
 logger = logging.getLogger(__name__)
 
 
@@ -245,11 +245,7 @@ class BookingService:
                 booking.date,
                 booking.time,
                 booking.comes_from or "غير محدد",
-                (
-                    booking.booking_time.strftime("%Y-%m-%d %H:%M")
-                    if booking.booking_time
-                    else ""
-                ),
+                fmt_local(booking.booking_time),
                 booking.status.value if booking.status else "",
             ])
 

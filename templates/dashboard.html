@@ -3,7 +3,7 @@
 {% block title %} لوحة التحكم — معامل ا.د/ حجازى العبودى{% endblock %}
 
 {% block topbar_title %}لوحة التحكم{% endblock %}
-{% block topbar_sub %}متابعة التحاليل، الحجوزات، والروشتات لحظياً — معامل ا.د/ حجازى العبودى للتحاليل الطبية الكيميائية{% endblock %}
+{% block topbar_sub %}متابعة التحاليل، الحجوزات، والروشتات لحظياً — معامل ا.د/ حجازى العبودى {% endblock %}
 
 {% block topbar_actions %}
   <button class="icon-btn" title="الإشعارات">
@@ -27,7 +27,7 @@
   <div class="hero-welcome">
     <div class="welcome-badge brand-welcome-badge">
       <span class="pulse-dot"></span>
-      النظام نشط — معامل ا.د/ حجازى العبودى للتحاليل الطبية الكيميائية
+      النظام نشط — معامل ا.د/ حجازى العبودى 
     </div>
     <div class="dashboard-brand-header">
       <div class="dashboard-logo-container">
@@ -155,11 +155,11 @@
         <div class="sub-period-dates">
           <div class="sub-period-item">
             <span class="sub-period-tag">من</span>
-            <span>{{ subscription.start_date.strftime('%d %b %Y') if subscription.start_date else '—' }}</span>
+            <span>{{ subscription.start_date|local_dt('%d %b %Y') if subscription.start_date else '—' }}</span>
           </div>
           <div class="sub-period-item">
             <span class="sub-period-tag">إلى</span>
-            <span>{{ subscription.end_date.strftime('%d %b %Y') if subscription.end_date else '—' }}</span>
+            <span>{{ subscription.end_date|local_dt('%d %b %Y') if subscription.end_date else '—' }}</span>
           </div>
         </div>
       </div>
