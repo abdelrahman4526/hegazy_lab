@@ -139,13 +139,13 @@ Last bot message:
             arabic=(
                 f"عذرًا، حدث خطأ مؤقت أثناء معالجة طلبك ⚠️\n\n"
                 f"يرجى المحاولة مرة أخرى بعد قليل، أو يمكنك التواصل مباشرة مع خدمة عملاء معامل ا.د/ حجازى العبودى لمساعدتك فوراً عبر الرقم:\n"
-                f"📞 ****\n\n"
+                f"📞 **01006163699**\n\n"
                 f"نحن في خدمتك دائمًا ✨"
             ),
             default=(
                 f"Apologies, a temporary error occurred while processing your request ⚠️\n\n"
-                f"Please try again in a moment, or contact El Sadara Labs customer service directly for assistance at:\n"
-                f"📞 ****\n\n"
+                f"Please try again in a moment, or contact Hegazy Al-Abboudi lab  customer service directly for assistance at:\n"
+                f"📞 **01006163699**\n\n"
                 f"We are always happy to help! ✨"
             ),
         )
@@ -231,7 +231,7 @@ Last bot message:
                 default=(
                     f"Your booking request has been successfully received ✅\n\n"
                     f"📌 **Reference ID:** *{booking_reference}*\n\n"
-                    f"Our customer service team at El Sadara Labs will contact you shortly to confirm the final appointment.\n\n"
+                    f"Our customer service team at Hegazy Al-Abboudi labs will contact you shortly to confirm the final appointment.\n\n"
                     f"Here is your booking ticket below 🎫"
                 ),
             )

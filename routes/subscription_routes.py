@@ -93,33 +93,23 @@ def reset_subscription_usage():
 @subscription_bp.route("/suspend", methods=["POST"])
 @login_required
 def suspend_subscription():
-    service = _get_service()
-    if not service:
-        flash("لا توجد بيانات اشتراك.", "error")
-        return redirect(url_for("main.dashboard"))
+    lab_id = LaboratoryService().get_current_laboratory_id()
+    sub_service = SubscriptionService(laboratory_id=lab_id)
 
-    if service.suspend():
-        logger.info("[AUDIT] user=%s suspended lab=%s", current_user.id, service.laboratory_id)
-        flash("تم إيقاف الاشتراك.", "warning")
-    else:
-        flash("فشل إيقاف الاشتراك.", "error")
-    return redirect(url_for(DASHBOARD))
+    sub_service.suspend()
+    flash("تم إيقاف خدمة الذكاء الاصطناعي بنجاح.", "warning")
+    return redirect(request.form.get("next") or request.referrer or url_for("main.dashboard"))
 
 
 @subscription_bp.route("/activate", methods=["POST"])
 @login_required
 def activate_subscription():
-    service = _get_service()
-    if not service:
-        flash("لا توجد بيانات اشتراك.", "error")
-        return redirect(url_for("main.dashboard"))
+    lab_id = LaboratoryService().get_current_laboratory_id()
+    sub_service = SubscriptionService(laboratory_id=lab_id)
 
-    if service.activate():
-        logger.info("[AUDIT] user=%s activated lab=%s", current_user.id, service.laboratory_id)
-        flash("تم تنشيط الاشتراك.", "success")
-    else:
-        flash("فشل تنشيط الاشتراك.", "error")
-    return redirect(url_for(DASHBOARD))
+    sub_service.activate()
+    flash("تم تفعيل خدمة الذكاء الاصطناعي بنجاح.", "success")
+    return redirect(request.form.get("next") or request.referrer or url_for("main.dashboard"))
 
 
 @subscription_bp.route("/update-limit", methods=["POST"])

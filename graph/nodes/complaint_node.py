@@ -96,13 +96,13 @@ RECENT CONVERSATION
             arabic=(
                    f"عذرًا، حدث خطأ مؤقت أثناء معالجة طلبك ⚠️\n\n"
                    f"يرجى المحاولة مرة أخرى بعد قليل، أو يمكنك التواصل مباشرة مع خدمة عملاء معامل ا.د/ حجازى العبودى  لمساعدتك فوراً عبر الرقم:\n"
-                   f"📞 ****\n\n"
+                   f"📞 **01006163699**\n\n"
                    f"نحن في خدمتك دائمًا ✨"
                    ),
             default=(
                     f"Apologies, a temporary error occurred while processing your request ⚠️\n\n"
-                    f"Please try again in a moment, or contact ezz lab customer service directly for assistance at:\n"
-                    f"📞 ****\n\n"
+                    f"Please try again in a moment, or contact Hegazy Al-Abboudi lab customer service directly for assistance at:\n"
+                    f"📞 **01006163699**\n\n"
                     f"We are always happy to help! ✨"
                     ),
               )
